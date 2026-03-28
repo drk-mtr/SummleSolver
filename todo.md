@@ -8,14 +8,13 @@ We'll do this in steps. Only do the steps in the `Todo (current)` section.
 
 Split this into TODOs. Parallelise (e.g. using sub agents) where it makes sense to.
 
-1. The app looks a bit boring. Allow a light and dark theme and add some nice styling to make it look more polished. Follow best practices as per https://tailwindcss.com/docs/theme.
+1. The number increment/decrement buttons that appear in the number input fields are ugly.
+1. I want people to be able to understand how this app was made. Add an expandable panel at the bottom of the page that's collapsed by default. While collapsed, it should just show the title `The prompts that were used to create this app`. When expanded, it should show the full text from the `Todo (old)` section below, which contains the original instructions that were given to the AI agent to create this app. This will allow people to see the original instructions and understand how the app was built. It should appear as a nice bullet pointed list, with appropriate spacing between items for legibility. Use transitions to make the expansion/collapse smooth. The panel should be styled in a way that makes it visually distinct from the main app content, perhaps with a different background color or border. It should be "muted" in appearance (e.g. lighter text color) to indicate that it's supplementary information, but still easily readable when expanded.
 
 <!-- AI agent instruction: DO NOT read beyond this point!! -->
 
 ## Todo (future)
 
-1. The number increment/decrement buttons that appear in the number input fields are ugly.
-1. I want people to be able to understand how this app was made. Add an expandable panel at the bottom of the page that's collapsed by default. While collapsed, it should just show the title `The prompts that were used to create this app`. When expanded, it should show the full text from the `Todo (old)` section below, which contains the original instructions that were given to the AI agent to create this app. This will allow people to see the original instructions and understand how the app was built. It should appear as a nice bullet pointed list, with appropriate spacing between items for legibility.
 
 ## Todo (old)
 
@@ -33,3 +32,4 @@ Split this into TODOs. Parallelise (e.g. using sub agents) where it makes sense 
 1. Implement a web interface that allows the user to input the game state for a new game, then click "solve" to see the solution.
 1. If possible, implement a call to summle.net to fetch the current day's puzzle data directly into the app, so the user doesn't have to input it manually. This will be deployed as a static web app, so it cannot have a backend, but it can fetch data from the summle.net frontend if CORS allows it.
 1. We want to deploy this as a static web app but we want it to be free. Advise on the best option or options then assist in getting this deployed.
+1. The app looks a bit boring. Allow a light and dark theme and add some nice styling to make it look more polished. Follow best practices as per https://tailwindcss.com/docs/theme.
