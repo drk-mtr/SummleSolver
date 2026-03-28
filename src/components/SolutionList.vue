@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { Equation } from '../game/types'
 
 const props = defineProps<{
@@ -12,32 +12,38 @@ const props = defineProps<{
 const showAll = ref(false)
 const PREVIEW_COUNT = 10
 
+// Sort shortest solutions first; reset showAll whenever results change.
+const sortedSolutions = computed(() =>
+  props.solutions ? [...props.solutions].sort((a, b) => a.length - b.length) : null
+)
+watch(() => props.solutions, () => { showAll.value = false })
+
 function opSymbol(op: string) {
   return op === '×' ? '×' : op === '÷' ? '÷' : op
 }
 </script>
 
 <template>
-  <div v-if="solutions !== null || solveError">
+  <div v-if="sortedSolutions !== null || solveError">
 
     <p v-if="solveError" class="text-center text-red-500 dark:text-red-400 font-semibold py-4">
       {{ solveError }}
     </p>
 
-    <template v-if="solutions && solutions.length > 0">
+    <template v-if="sortedSolutions && sortedSolutions.length > 0">
 
       <!-- header -->
       <div class="flex items-center justify-between px-1 mb-3">
         <h2 class="font-bold text-gray-800 dark:text-slate-200">
-          <span class="text-indigo-600 dark:text-indigo-400">{{ solutions.length }}</span>
-          solution{{ solutions.length === 1 ? '' : 's' }} found
+          <span class="text-indigo-600 dark:text-indigo-400">{{ sortedSolutions.length }}</span>
+          solution{{ sortedSolutions.length === 1 ? '' : 's' }} found
         </h2>
         <span v-if="elapsed !== null" class="text-xs text-gray-400 dark:text-slate-500 tabular-nums">{{ elapsed }} ms</span>
       </div>
 
       <!-- solution cards -->
       <div
-        v-for="(sol, si) in (showAll ? solutions : solutions.slice(0, PREVIEW_COUNT))"
+        v-for="(sol, si) in (showAll ? sortedSolutions : sortedSolutions.slice(0, PREVIEW_COUNT))"
         :key="si"
         class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm p-4 mb-3"
       >
@@ -77,11 +83,11 @@ function opSymbol(op: string) {
 
       <!-- show more -->
       <button
-        v-if="solutions.length > PREVIEW_COUNT && !showAll"
+        v-if="sortedSolutions.length > PREVIEW_COUNT && !showAll"
         @click="showAll = true"
         class="w-full py-2.5 rounded-xl border-2 border-gray-200 dark:border-slate-700 text-gray-500 dark:text-slate-400 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
       >
-        Show {{ solutions.length - PREVIEW_COUNT }} more solution{{ solutions.length - PREVIEW_COUNT === 1 ? '' : 's' }}
+        Show {{ sortedSolutions.length - PREVIEW_COUNT }} more solution{{ sortedSolutions.length - PREVIEW_COUNT === 1 ? '' : 's' }}
       </button>
 
     </template>
