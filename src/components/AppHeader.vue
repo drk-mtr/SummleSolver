@@ -13,9 +13,7 @@ defineEmits<{ toggle: [] }>()
         <p class="text-xs text-gray-400 dark:text-slate-500 mt-0.5">
           Solve
           <a href="https://summle.net" target="_blank" rel="noopener"
-             class="underline underline-offset-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">
-            summle.net
-          </a>
+             class="underline underline-offset-2 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">summle.net</a>
           puzzles instantly
         </p>
       </div>
