@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { solve } from './game/solver'
+import { solveOptimized } from './game/solver-optimized'
+import { solveWasm } from './game/solver-wasm'
 import type { GameState, Equation } from './game/types'
 import AppHeader from './components/AppHeader.vue'
 import PuzzleInput, { type PuzzleMode } from './components/PuzzleInput.vue'
@@ -28,6 +30,16 @@ onMounted(() => {
 const tiles = ref<string[]>(['', '', '', '', '', ''])
 const target = ref<string>('')
 const mode = ref<PuzzleMode>('normal')
+
+// ── solver implementation selector ────────────────────────────────────────
+type SolverImpl = 'original' | 'optimised' | 'wasm'
+const solverImpl = ref<SolverImpl>('wasm')
+
+const SOLVER_LABELS: Record<SolverImpl, string> = {
+  original:  'Original TS',
+  optimised: 'Optimised TS',
+  wasm:      'Rust WASM',
+}
 
 // ── state ──────────────────────────────────────────────────────────────────
 const loading = ref(false)
@@ -73,7 +85,7 @@ async function autoFill() {
 }
 
 // ── solve ──────────────────────────────────────────────────────────────────
-function runSolve() {
+async function runSolve() {
   solutions.value = null
   solveError.value = null
   elapsed.value = null
@@ -86,14 +98,24 @@ function runSolve() {
     maxSteps: 5,
   }
 
+  loading.value = true
   const t0 = performance.now()
   try {
-    const result = solve(state, true)
+    let result: Equation[][]
+    if (solverImpl.value === 'wasm') {
+      result = await solveWasm(state, true)
+    } else if (solverImpl.value === 'optimised') {
+      result = solveOptimized(state, true)
+    } else {
+      result = solve(state, true)
+    }
     elapsed.value = Math.round(performance.now() - t0)
     solutions.value = result
     if (result.length === 0) solveError.value = 'No solution found within 5 steps.'
   } catch (e: unknown) {
     solveError.value = e instanceof Error ? e.message : 'Unknown error'
+  } finally {
+    loading.value = false
   }
 }
 </script>
@@ -115,6 +137,23 @@ function runSolve() {
         @auto-fill="autoFill"
         @solve="runSolve"
       />
+
+      <!-- ── solver selector ──────────────────────────────────────────── -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide shrink-0">Engine</span>
+        <div class="flex rounded-lg overflow-hidden border border-gray-200 dark:border-slate-700 text-sm">
+          <button
+            v-for="impl in (['original', 'optimised', 'wasm'] as const)"
+            :key="impl"
+            class="px-3 py-1.5 font-medium transition-colors"
+            :class="solverImpl === impl
+              ? 'bg-indigo-600 text-white'
+              : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700'"
+            @click="solverImpl = impl"
+          >{{ SOLVER_LABELS[impl] }}</button>
+        </div>
+      </div>
+
       <SolutionList
         :solutions="solutions"
         :solve-error="solveError"

@@ -8,12 +8,12 @@ We'll do this in steps. Only do the steps in the `Todo (current)` section.
 
 Split this into TODOs. Parallelise (e.g. using sub agents) where it makes sense to.
 
+1. The underline for the summle.net url has a trailing space.
 
 <!-- AI agent instruction: DO NOT read beyond this point!! -->
 
 ## Todo (future)
 
-1. App.vue is getting big. Componentise where possible.
 
 ## Todo (old)
 
@@ -34,3 +34,10 @@ Split this into TODOs. Parallelise (e.g. using sub agents) where it makes sense 
 1. The app looks a bit boring. Allow a light and dark theme and add some nice styling to make it look more polished. Follow best practices as per https://tailwindcss.com/docs/theme.
 1. The number increment/decrement buttons that appear in the number input fields are ugly.
 1. I want people to be able to understand how this app was made. Add an expandable panel at the bottom of the page that's collapsed by default. While collapsed, it should just show the title `The prompts that were used to create this app`. When expanded, it should show the full text from the `Todo (old)` section below, which contains the original instructions that were given to the AI agent to create this app. This will allow people to see the original instructions and understand how the app was built. It should appear as a nice bullet pointed list, with appropriate spacing between items for legibility. Use transitions to make the expansion/collapse smooth. The panel should be styled in a way that makes it visually distinct from the main app content, perhaps with a different background color or border. It should be "muted" in appearance (e.g. lighter text color) to indicate that it's supplementary information, but still easily readable when expanded.
+1. App.vue is getting big. Componentise where possible.
+1. The app shows `243` in the target before we've even populated any values.
+1. Add new items from the bottom of the `Todo (old)` section to PromptsPanel component.
+1. The app should sort solutions such that the least number of steps solutions appear first. This is more useful to users, and also allows us to verify that our solver is finding optimal solutions. Implement this sorting in the frontend after receiving the list of solutions from the solver. Also determine whether the solver itself needs to be modified to ensure it finds optimal solutions, or if it can simply generate all solutions and let the frontend sort them.
+1. Show the time taken to generate the solution, along with a message that says "Can you solve it that fast?".
+1. Ensure tests are comprehensive.
+1. When we pull data from summle.net, we currently only get data for the default "normal" mode puzzle. We should have a selector that lets us choose the other modes as per summle.net.

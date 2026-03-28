@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "dev": "npm run build:wasm && vite",
+    "build": "npm run build:wasm && vue-tsc -b && vite build",
+    "build:wasm": "wasm-pack build solver-wasm --target web --release 2>/dev/null || ~/.cargo/bin/wasm-pack build solver-wasm --target web --release",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "bench": "vitest bench"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
@@ -23,6 +25,7 @@
     "jsdom": "^29.0.1",
     "typescript": "~5.9.3",
     "vite": "^8.0.1",
+    "vite-plugin-wasm": "^3.6.0",
     "vitest": "^4.1.2",
     "vue-tsc": "^3.2.5"
   }
