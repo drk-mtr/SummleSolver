@@ -57,6 +57,8 @@ const open = ref(false)
             <li>Add new items from the bottom of the prompts list to the PromptsPanel component.</li>
             <li>The app should sort solutions such that the least number of steps solutions appear first. This is more useful to users, and also allows us to verify that our solver is finding optimal solutions. Implement this sorting in the frontend after receiving the list of solutions from the solver. Also determine whether the solver itself needs to be modified to ensure it finds optimal solutions, or if it can simply generate all solutions and let the frontend sort them.</li>
             <li>Show the time taken to generate the solution, along with a message that says "Can you solve it that fast?".</li>
+            <li>Ensure tests are comprehensive.</li>
+            <li>When we pull data from summle.net, we currently only get data for the default "normal" mode puzzle. We should have a selector that lets us choose the other modes as per summle.net.</li>
           </ol>
         </div>
       </div>
