@@ -53,6 +53,7 @@ const open = ref(false)
             <li>The number increment/decrement buttons that appear in the number input fields are ugly.</li>
             <li>I want people to be able to understand how this app was made. Add an expandable panel at the bottom of the page that's collapsed by default showing the prompts used to create it.</li>
             <li>App.vue is getting big. Componentise where possible.</li>
+            <li>The app shows <code class="font-mono text-xs bg-gray-200 dark:bg-slate-800 rounded px-1">243</code> in the target before we've even populated any values.</li>
           </ol>
         </div>
       </div>
