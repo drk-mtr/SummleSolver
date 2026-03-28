@@ -64,4 +64,42 @@ describe('solve', () => {
       expect(sol[sol.length - 1].result).toBe(350);
     }
   });
+
+  it('every step in a multi-step solution uses numbers actually available at that point', () => {
+    const state: GameState = {
+      target: 243,
+      availableNumbers: [2, 2, 4, 4, 5, 100],
+      completedEquations: [],
+      maxSteps: 5,
+    };
+    const solutions = solve(state, true);
+    expect(solutions.length).toBeGreaterThan(0);
+
+    for (const solution of solutions) {
+      // Simulate the pool evolving after each equation and verify operands were available.
+      const pool = [...state.availableNumbers];
+      for (const eq of solution) {
+        const i1 = pool.indexOf(eq.operand1);
+        expect(i1).toBeGreaterThanOrEqual(0); // operand1 must be in pool
+        pool.splice(i1, 1);
+        const i2 = pool.indexOf(eq.operand2);
+        expect(i2).toBeGreaterThanOrEqual(0); // operand2 must be in pool
+        pool.splice(i2, 1);
+        pool.push(eq.result);
+      }
+      expect(pool).toContain(243); // target must be in pool at end
+    }
+  });
+
+  it('returns a 0-step solution when the target is already in the initial tiles', () => {
+    const state: GameState = {
+      target: 100,
+      availableNumbers: [2, 3, 100, 4, 5, 6],
+      completedEquations: [],
+      maxSteps: 5,
+    };
+    const solutions = solve(state);
+    expect(solutions.length).toBeGreaterThan(0);
+    expect(solutions[0]).toHaveLength(0); // no equations needed
+  });
 });
