@@ -54,6 +54,9 @@ const open = ref(false)
             <li>I want people to be able to understand how this app was made. Add an expandable panel at the bottom of the page that's collapsed by default showing the prompts used to create it.</li>
             <li>App.vue is getting big. Componentise where possible.</li>
             <li>The app shows <code class="font-mono text-xs bg-gray-200 dark:bg-slate-800 rounded px-1">243</code> in the target before we've even populated any values.</li>
+            <li>Add new items from the bottom of the prompts list to the PromptsPanel component.</li>
+            <li>The app should sort solutions such that the least number of steps solutions appear first. This is more useful to users, and also allows us to verify that our solver is finding optimal solutions. Implement this sorting in the frontend after receiving the list of solutions from the solver. Also determine whether the solver itself needs to be modified to ensure it finds optimal solutions, or if it can simply generate all solutions and let the frontend sort them.</li>
+            <li>Show the time taken to generate the solution, along with a message that says "Can you solve it that fast?".</li>
           </ol>
         </div>
       </div>
