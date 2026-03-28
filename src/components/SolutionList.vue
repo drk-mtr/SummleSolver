@@ -33,12 +33,17 @@ function opSymbol(op: string) {
     <template v-if="sortedSolutions && sortedSolutions.length > 0">
 
       <!-- header -->
-      <div class="flex items-center justify-between px-1 mb-3">
-        <h2 class="font-bold text-gray-800 dark:text-slate-200">
-          <span class="text-indigo-600 dark:text-indigo-400">{{ sortedSolutions.length }}</span>
-          solution{{ sortedSolutions.length === 1 ? '' : 's' }} found
-        </h2>
-        <span v-if="elapsed !== null" class="text-xs text-gray-400 dark:text-slate-500 tabular-nums">{{ elapsed }} ms</span>
+      <div class="px-1 mb-3">
+        <div class="flex items-center justify-between">
+          <h2 class="font-bold text-gray-800 dark:text-slate-200">
+            <span class="text-indigo-600 dark:text-indigo-400">{{ sortedSolutions.length }}</span>
+            solution{{ sortedSolutions.length === 1 ? '' : 's' }} found
+          </h2>
+          <span v-if="elapsed !== null" class="text-xs text-gray-400 dark:text-slate-500 tabular-nums">{{ elapsed }} ms</span>
+        </div>
+        <p v-if="elapsed !== null" class="text-xs text-gray-400 dark:text-slate-500 mt-0.5">
+          Solved in <span class="font-semibold tabular-nums">{{ elapsed }} ms</span> — can you solve it that fast?
+        </p>
       </div>
 
       <!-- solution cards -->
