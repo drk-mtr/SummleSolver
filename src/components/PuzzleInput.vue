@@ -63,8 +63,7 @@ function updateTile(i: number, value: string) {
         @input="$emit('update:target', ($event.target as HTMLInputElement).value)"
         type="number"
         min="1"
-        placeholder="243"
-        class="w-full rounded-xl border-2 border-gray-200 dark:border-slate-700 bg-transparent dark:bg-slate-800/50 px-4 py-3 text-3xl font-black text-center text-indigo-600 dark:text-indigo-400 placeholder:text-gray-200 dark:placeholder:text-slate-700 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
+        class="w-full rounded-xl border-2 border-gray-200 dark:border-slate-700 bg-transparent dark:bg-slate-800/50 px-4 py-3 text-3xl font-black text-center text-indigo-600 dark:text-indigo-400 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
       />
     </div>
 
