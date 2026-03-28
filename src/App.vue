@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { solve } from './game/solver'
 import type { GameState, Equation } from './game/types'
 import AppHeader from './components/AppHeader.vue'
-import PuzzleInput from './components/PuzzleInput.vue'
+import PuzzleInput, { type PuzzleMode } from './components/PuzzleInput.vue'
 import SolutionList from './components/SolutionList.vue'
 import PromptsPanel from './components/PromptsPanel.vue'
 
@@ -27,6 +27,7 @@ onMounted(() => {
 // ── puzzle inputs ──────────────────────────────────────────────────────────
 const tiles = ref<string[]>(['', '', '', '', '', ''])
 const target = ref<string>('')
+const mode = ref<PuzzleMode>('normal')
 
 // ── state ──────────────────────────────────────────────────────────────────
 const loading = ref(false)
@@ -53,7 +54,8 @@ async function autoFill() {
   solveError.value = null
   elapsed.value = null
   try {
-    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent('https://summle.net/')}`
+    const modeSegment = mode.value === 'normal' ? '' : `${mode.value}/`
+    const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(`https://summle.net/${modeSegment}`)}`
     const resp = await fetch(proxyUrl)
     if (!resp.ok) throw new Error(`Proxy returned ${resp.status}`)
     const text = await resp.text()
@@ -106,8 +108,10 @@ function runSolve() {
         :loading="loading"
         :fetch-error="fetchError"
         :inputs-valid="inputsValid"
+        :mode="mode"
         @update:tiles="tiles = $event"
         @update:target="target = $event"
+        @update:mode="mode = $event"
         @auto-fill="autoFill"
         @solve="runSolve"
       />

@@ -1,18 +1,28 @@
 <script setup lang="ts">
+export type PuzzleMode = 'normal' | 'hard' | 'extreme'
+
 const props = defineProps<{
   tiles: string[]
   target: string
   loading: boolean
   fetchError: string | null
   inputsValid: boolean
+  mode: PuzzleMode
 }>()
 
 const emit = defineEmits<{
   'update:tiles': [value: string[]]
   'update:target': [value: string]
+  'update:mode': [value: PuzzleMode]
   'auto-fill': []
   'solve': []
 }>()
+
+const MODES: { value: PuzzleMode; label: string }[] = [
+  { value: 'normal',  label: 'Normal'  },
+  { value: 'hard',    label: 'Hard'    },
+  { value: 'extreme', label: 'Extreme' },
+]
 
 function updateTile(i: number, value: string) {
   const updated = [...props.tiles]
@@ -23,6 +33,22 @@ function updateTile(i: number, value: string) {
 
 <template>
   <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-800 p-6">
+
+    <!-- mode selector -->
+    <div class="flex rounded-xl overflow-hidden border-2 border-indigo-200 dark:border-indigo-800 mb-3">
+      <button
+        v-for="m in MODES"
+        :key="m.value"
+        @click="$emit('update:mode', m.value)"
+        :disabled="loading"
+        class="flex-1 py-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed"
+        :class="mode === m.value
+          ? 'bg-indigo-600 dark:bg-indigo-600 text-white'
+          : 'text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950'"
+      >
+        {{ m.label }}
+      </button>
+    </div>
 
     <!-- auto-fill -->
     <button
